@@ -1,0 +1,7 @@
+{% extends 'phonebook/base.html' %} {% block content %}
+<h2>add New contact</h2>
+<form method="POST" class="post-form">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

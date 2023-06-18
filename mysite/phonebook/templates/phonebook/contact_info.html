@@ -1,0 +1,11 @@
+{% extends 'phonebook/base.html' %} {% block content %}
+
+<button><a href="{% url 'edit_contact' pk=contact.pk %}">edit meee</a></button>
+<button>
+  <a href="{% url 'del_contact' pk=contact.pk%}">delete meee</a>
+</button>
+
+<h2>{{ contact.name }}</h2>
+<p>{{ contact.phonenumber }}</p>
+
+{% endblock %}

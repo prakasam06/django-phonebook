@@ -1,0 +1,14 @@
+{% extends 'phonebook/base.html' %} {% block content %}
+<div>
+  <button><a href="">login</a></button>
+  <h1>contacts</h1>
+
+  <button><a href="{% url 'new_contact' %}">add contacts</a></button>
+  {% for contact in allcontacts %}
+
+  <h2>
+    <a href="{% url 'contact_info' pk=contact.pk %}">{{ contact.name }}</a>
+  </h2>
+  {% endfor %}
+</div>
+{% endblock %}
