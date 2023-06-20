@@ -1,5 +1,8 @@
 from django.shortcuts import render ,get_object_or_404
 from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.models import User,auth
+from django.contrib.auth import authenticate,login
 from .models import contacts
 from .forms import contact_form
 
@@ -41,3 +44,42 @@ def del_contact(request,pk):
     contact = get_object_or_404(contacts, pk=pk)
     contact.delete()
     return redirect('all_contacts')
+
+def register(request):
+        
+        if request.method == 'POST':
+            firstname = request.POST['firstname']
+            lastname = request.POST['lastname']
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password']
+           
+            if User.objects.filter(username=username).exists():
+                        messages.info(request,'user already exixts')
+                        return redirect('register')
+            else: 
+                    user = User.objects.create_user(username=username,email=email,first_name=firstname,last_name=lastname)
+                    user.set_password(password)
+                    user.save()
+                    return redirect('login')
+        else:
+                    return render(request,"phonebook/register.html")
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user =auth.authenticate(username=username,password=password)
+        if user is not None:
+          auth.login(request,user)
+          return redirect('all_contacts')
+        else:
+            messages.info(request, 'invalid username or password')
+            return redirect('login')
+    else:
+        return render(request,"phonebook/login.html")
+  
+    
+def logout(request):
+     auth.logout(request)
+     return redirect('all_contacts')

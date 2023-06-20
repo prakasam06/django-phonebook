@@ -1,10 +1,20 @@
 {% extends 'phonebook/base.html' %} {% block content %}
 <div>
-  <button><a href="">login</a></button>
+  <button><a href="{%url 'login' %}">login</a></button>
+  <button><a href="{% url 'register' %}">register</a></button>
+  <button><a href="{% url 'logout' %}">logout</a></button>
+  {% if request.user.is_authenticated %}
+  <p>you are logged in</p>
+  <p>username: {{ request.user.username }}</p>
+  {% else %}
+  <p>login to continue</p>
+  {% endif %}
   <h1>contacts</h1>
 
+  {% if user.is_authenticated %}
+
   <button><a href="{% url 'new_contact' %}">add contacts</a></button>
-  {% for contact in allcontacts %}
+  {%endif%} {% for contact in allcontacts %}
 
   <h2>
     <a href="{% url 'contact_info' pk=contact.pk %}">{{ contact.name }}</a>
